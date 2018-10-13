@@ -22,6 +22,12 @@ namespace HiveRL.Components
                 this.Map.MoveGameObject(this.Host, target);
         }
 
+        public void MoveTo(int x = 0, int y = 0)
+        {
+            var target = new Point(x,  y);
+            this.Map.MoveGameObject(this.Host, target);
+        }
+
         public Point Point { get; set;}
 
         public Map Map { get; set; }

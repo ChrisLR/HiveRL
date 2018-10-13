@@ -13,12 +13,14 @@ namespace HiveRL
         Game game;
         public List<GameObject> GameObjects;
         Dictionary<Point, List<GameObject>> gameObjectsByPoint;
+        Dictionary<Point, GameObjects.Tile> tilesByPoint;
 
         public Map(Game game, int width, int height) : base(width, height)
         {
             this.game = game;
             this.gameObjectsByPoint = new Dictionary<Point, List<GameObject>>();
             this.GameObjects = new List<GameObject>();
+            this.tilesByPoint = new Dictionary<Point, GameObjects.Tile>();
         }
 
         public void AddGameObject(GameObject gameObject)
@@ -56,6 +58,19 @@ namespace HiveRL
             newGameObjects.Add(gameObject);
             this.gameObjectsByPoint[newPoint] = newGameObjects;
             gameObject.Location.Point = newPoint;
+        }
+
+        public void AddTile(GameObjects.Tile tile)
+        {
+            Point point = tile.Location.Point;
+            this.tilesByPoint[point] = tile;
+        }
+
+        public GameObjects.Tile GetTile(Point point)
+        {
+            GameObjects.Tile tile = null;
+            this.tilesByPoint.TryGetValue(point, out tile);
+            return tile;
         }
 
         public void Update(GameTime time)

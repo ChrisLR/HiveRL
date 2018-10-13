@@ -45,10 +45,9 @@ namespace HiveRL
 
             //Add an display a character
             this.Player = new GameObjects.Character("Kek", 1, this.activeMap);
-            this.Player.Location.Point = new Point(0, 0);
+            this.Player.Location.Point = new Point(10, 10);
             this.activeMap.AddGameObject(Player);
             HiveRL.UI.GameArea gameArea = new UI.GameArea(this.Player, this, Width - 21, Height);
-            gameArea.Manager.Entities.Add(this.Player.Display.SadEntity);
 
             //Add Npcs
             for(var i = 0; i < 10; i++)
@@ -57,13 +56,29 @@ namespace HiveRL
                 npc.Display.SadEntity.Animation.SetForeground(0, 0, Color.Red);
                 npc.Location.Point = new Point(i * 2, i);
                 this.activeMap.AddGameObject(npc);
-                gameArea.Manager.Entities.Add(npc.Display.SadEntity);
             }
 
             var hud = new HiveRL.UI.Hud(this.Player, 20, Height);
             hud.Position = new Point(Width - 21, 0);
             startingConsole.Children.Add(hud);
             startingConsole.Children.Add(gameArea);
+
+            for(var x = 0; x < 50; x++)
+            {
+                for(var y = 0; y < 50; y++)
+                {
+                    if(x == 0 || y == 0 || x == 49 || y == 49)
+                    {
+                        var wall = new GameObjects.Wall(100, this.activeMap, x, y);
+                        this.activeMap.AddTile(wall);
+                    }
+                    else
+                    {
+                        var floor = new GameObjects.Floor(this.activeMap, x, y);
+                        this.activeMap.AddTile(floor);
+                    }
+                }
+            }
         }
 
         public void Start()

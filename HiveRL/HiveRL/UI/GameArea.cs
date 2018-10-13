@@ -14,29 +14,44 @@ namespace HiveRL.UI
         Character player;
         Game game;
         Point origin;
+        List<Point> points;
 
         public GameArea(Character player, Game game, int width, int height) : base(width, height)
         {
             this.player = player;
-            this.Manager = new SadConsole.Entities.EntityManager();
-            this.Children.Add(this.Manager);
             this.ViewPort = new Rectangle(0, 0, width, height);
             this.game = game;
             this.origin = new Point(width / 2, height / 2);
             this.player.Display.SadEntity.Position = this.origin;
+            this.points = new List<Point>();
 
         }
 
-        public SadConsole.Entities.EntityManager Manager { get; protected set; }
-
         public override void Draw(TimeSpan timeElapsed)
         {
+            this.Clear();
+            for ( var world_x = 0; world_x <= this.ViewPort.Width; world_x++)
+            {
+                for (var world_y = 0; world_y <= this.ViewPort.Height; world_y++)
+                {
+                    var screenOffset = new Point(this.origin.X - world_x, this.origin.Y - world_y );
+                    Point gamePoint = this.player.Location.Point - screenOffset;
+                    Tile tile = this.game.activeMap.GetTile(gamePoint);
+                    if(tile != null)
+                    {
+                        var display = (Components.Display)tile.GetComponent(typeof(Components.Display));
+                        this.SetGlyph(world_x, world_y, display.SadEntity.Animation.GetGlyph(0, 0));
+                    }
+                }
+            }
+
+            
             foreach(GameObject gameObject in this.game.activeMap.GameObjects)
             {
                 var display = (Components.Display)gameObject.GetComponent(typeof(Components.Display));
                 var offset = gameObject.Location.Point - this.player.Location.Point;
                 var screenPosition = this.origin + offset;
-                display.SadEntity.Position = screenPosition;
+                this.SetGlyph(screenPosition.X, screenPosition.Y, display.SadEntity.Animation.GetGlyph(0, 0));
             }
             base.Draw(timeElapsed);
         }
