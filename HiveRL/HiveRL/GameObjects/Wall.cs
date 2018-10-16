@@ -9,13 +9,13 @@ namespace HiveRL.GameObjects
 {
     public class Wall : Tile
     {
-        public Wall(int max_health, Map map, int x, int y): base("wall", map)
+        public Wall(int max_health, Maps.Map map, int x, int y): base("wall", map)
         {
             this.Health = new Components.Health(this, max_health);
             this.Display = new Components.Display(this, '#', Color.Gray, Color.Black);
             this.RegisterComponent(this.Health);
             this.RegisterComponent(this.Display);
-            this.Location.MoveTo(x, y);
+            this.Location.SetPos(x, y);
         }
 
         public Components.Health Health { get; set; }

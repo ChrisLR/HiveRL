@@ -8,7 +8,7 @@ namespace HiveRL.GameObjects
 {
     public class Tile : GameObject
     {
-        public Tile(string name, Map map) : base(name, map)
+        public Tile(string name, Maps.Map map) : base(name, map)
         {
 
         }
