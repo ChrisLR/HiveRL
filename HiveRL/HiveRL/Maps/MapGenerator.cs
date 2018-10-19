@@ -96,9 +96,9 @@ namespace HiveRL.Maps
         private void CreateRoom(Room room)
         {
             Rectangle box = room.Box;
-            for (int x = box.Left + 1; x < box.Right; x++)
+            for (int x = box.Left; x <= box.Right; x++)
             {
-                for (int y = box.Top + 1; y < box.Bottom; y++)
+                for (int y = box.Top; y <= box.Bottom; y++)
                 {
                     if(x == box.Left || x == box.Right || y == box.Top || y == box.Bottom)
                     {
@@ -121,6 +121,19 @@ namespace HiveRL.Maps
             {
                 GameObjects.Floor newFloor = new GameObjects.Floor(this._map, x, yPosition);
                 this._map.AddTile(newFloor);
+                
+                var northPoint = new Point(x, yPosition - 1);
+                var southPoint = new Point(x, yPosition + 1);
+                if(this._map.GetTile(northPoint) == null)
+                {
+                    var northWall = new GameObjects.Wall(1, this._map, northPoint.X, northPoint.Y);
+                    this._map.AddTile(northWall);
+                }
+                if (this._map.GetTile(southPoint) == null)
+                {
+                    var southWall = new GameObjects.Wall(1, this._map, southPoint.X, southPoint.Y);
+                    this._map.AddTile(southWall);
+                }
             }
         }
 
@@ -131,6 +144,18 @@ namespace HiveRL.Maps
             {
                 GameObjects.Floor newFloor = new GameObjects.Floor(this._map, xPosition, y);
                 this._map.AddTile(newFloor);
+                var eastPoint = new Point(xPosition - 1, y);
+                var westPoint = new Point(xPosition + 1, y);
+                if (this._map.GetTile(eastPoint) == null)
+                {
+                    var eastWall = new GameObjects.Wall(1, this._map, eastPoint.X, eastPoint.Y);
+                    this._map.AddTile(eastWall);
+                }
+                if (this._map.GetTile(westPoint) == null)
+                {
+                    var westWall = new GameObjects.Wall(1, this._map, westPoint.X, westPoint.Y);
+                    this._map.AddTile(westWall);
+                }
             }
         }
     }

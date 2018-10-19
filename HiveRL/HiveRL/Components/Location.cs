@@ -18,6 +18,10 @@ namespace HiveRL.Components
         {
             var target = new Point(this.Point.X + x, this.Point.Y + y);
             var pointGameObjects = this.Map.GetGameObjectsByPoint(target);
+            var tile = this.Map.GetTile(target);
+            if (tile == null || tile.IsBlocking)
+                return;
+
             if (pointGameObjects == null || !pointGameObjects.Any(g => g.IsBlocking))
                 this.Map.MoveGameObject(this.Host, target);
         }

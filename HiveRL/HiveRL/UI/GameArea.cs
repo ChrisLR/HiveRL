@@ -15,6 +15,7 @@ namespace HiveRL.UI
         Game game;
         Point origin;
         List<Point> points;
+        public bool HasMoved = true;
 
         public GameArea(Character player, Game game, int width, int height) : base(width, height)
         {
@@ -29,13 +30,27 @@ namespace HiveRL.UI
 
         public override void Draw(TimeSpan timeElapsed)
         {
+            if (!this.HasMoved)
+            {
+                base.Draw(timeElapsed);
+                return;
+            }
+                
+            this.HasMoved = false;
+
             this.Clear();
+            Components.Vision vision = (Components.Vision)this.player.GetComponent(typeof(Components.Vision));
             for ( var world_x = 0; world_x <= this.ViewPort.Width; world_x++)
             {
                 for (var world_y = 0; world_y <= this.ViewPort.Height; world_y++)
                 {
                     var screenOffset = new Point(this.origin.X - world_x, this.origin.Y - world_y );
                     Point gamePoint = this.player.Location.Point - screenOffset;
+                    
+                    if(!vision.CanSee(gamePoint))
+                    {
+                        continue;
+                    }
                     Tile tile = this.game.activeMap.GetTile(gamePoint);
                     if(tile != null)
                     {
@@ -48,6 +63,10 @@ namespace HiveRL.UI
             
             foreach(GameObject gameObject in this.game.activeMap.GameObjects)
             {
+                if (!vision.CanSee(gameObject.Location.Point))
+                {
+                    continue;
+                }
                 var display = (Components.Display)gameObject.GetComponent(typeof(Components.Display));
                 var offset = gameObject.Location.Point - this.player.Location.Point;
                 var screenPosition = this.origin + offset;

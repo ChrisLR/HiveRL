@@ -66,13 +66,14 @@ namespace HiveRL.Maps
         {
             Point point = tile.Location.Point;
             this.tilesByPoint[point] = tile;
-            this.SetCellProperties(point.X, point.Y, tile.IsBlocking, tile.IsBlocking);
+            this.SetCellProperties(point.X, point.Y, !tile.IsBlocking, !tile.IsBlocking);
         }
 
         public GameObjects.Tile GetTile(Point point)
         {
             GameObjects.Tile tile = null;
             this.tilesByPoint.TryGetValue(point, out tile);
+
             return tile;
         }
 

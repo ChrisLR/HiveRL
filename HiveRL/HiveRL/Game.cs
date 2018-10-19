@@ -20,6 +20,7 @@ namespace HiveRL
         public const int Height = 25;
         
         public Maps.Map activeMap;
+        UI.GameArea gameArea;
 
         public Game()
         {
@@ -48,9 +49,10 @@ namespace HiveRL
             //Add an display a character
             this.Player = new GameObjects.Character("Kek", 1, this.activeMap);
             this.Player.Location.Point = this.activeMap.Rooms.First().Box.Center;
+            this.Player.RegisterComponent(new Components.Vision(this.Player, 10));
             
             this.activeMap.AddGameObject(Player);
-            HiveRL.UI.GameArea gameArea = new UI.GameArea(this.Player, this, Width - 21, Height);
+            this.gameArea = new UI.GameArea(this.Player, this, Width - 21, Height);
 
             //Add Npcs
             //for(var i = 0; i < 10; i++)
@@ -88,20 +90,25 @@ namespace HiveRL
             if (SadConsole.Global.KeyboardState.IsKeyReleased(Microsoft.Xna.Framework.Input.Keys.D))
             {
                 this.Player.Location.MoveByOffset(1);
+                this.gameArea.HasMoved = true;
             }
             if (SadConsole.Global.KeyboardState.IsKeyReleased(Microsoft.Xna.Framework.Input.Keys.S))
             {
                 this.Player.Location.MoveByOffset(0, 1);
+                this.gameArea.HasMoved = true;
             }
             if (SadConsole.Global.KeyboardState.IsKeyReleased(Microsoft.Xna.Framework.Input.Keys.W))
             {
                 this.Player.Location.MoveByOffset(0, -1);
+                this.gameArea.HasMoved = true;
             }
             if (SadConsole.Global.KeyboardState.IsKeyReleased(Microsoft.Xna.Framework.Input.Keys.A))
             {
                 this.Player.Location.MoveByOffset(-1);
+                this.gameArea.HasMoved = true;
             }
-            this.Player.Update(time);
+            if(this.gameArea.HasMoved)
+                this.Player.Update(time);
             
         }
 

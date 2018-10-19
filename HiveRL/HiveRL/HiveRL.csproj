@@ -69,6 +69,7 @@
     <Compile Include="Components\Display.cs" />
     <Compile Include="Components\Health.cs" />
     <Compile Include="Components\Location.cs" />
+    <Compile Include="Components\Vision.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="GameObjects\Character.cs" />
     <Compile Include="GameObjects\Floor.cs" />
