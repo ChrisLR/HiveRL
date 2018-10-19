@@ -19,7 +19,8 @@ namespace HiveRL
         public const int Width = 80;
         public const int Height = 25;
         
-        public Map activeMap;
+        public Maps.Map activeMap;
+        UI.GameArea gameArea;
 
         public Game()
         {
@@ -31,7 +32,6 @@ namespace HiveRL
 
             // Hook the update event that happens each frame so we can trap keys and respond.
             SadConsole.Game.OnUpdate = Update;
-            this.activeMap = new Map(this, 50, 50);
             this.Start();
         }
 
@@ -43,42 +43,32 @@ namespace HiveRL
             // Set our new console as the thing to render and process
             SadConsole.Global.CurrentScreen = startingConsole;
 
+            var generator = new Maps.MapGenerator(this, 50, 50, 10, 10, 6);
+            this.activeMap = generator.CreateMap();
+
             //Add an display a character
             this.Player = new GameObjects.Character("Kek", 1, this.activeMap);
-            this.Player.Location.Point = new Point(10, 10);
+            this.Player.Location.Point = this.activeMap.Rooms.First().Box.Center;
+            this.Player.RegisterComponent(new Components.Vision(this.Player, 10));
+            
             this.activeMap.AddGameObject(Player);
-            HiveRL.UI.GameArea gameArea = new UI.GameArea(this.Player, this, Width - 21, Height);
+            this.gameArea = new UI.GameArea(this.Player, this, Width - 21, Height);
 
             //Add Npcs
-            for(var i = 0; i < 10; i++)
-            {
-                var npc = new GameObjects.Character("Npc", 1, this.activeMap);
-                npc.Display.SadEntity.Animation.SetForeground(0, 0, Color.Red);
-                npc.Location.Point = new Point(i * 2, i);
-                this.activeMap.AddGameObject(npc);
-            }
+            //for(var i = 0; i < 10; i++)
+            //{
+            //    var npc = new GameObjects.Character("Npc", 1, this.activeMap);
+            //    npc.Display.SadEntity.Animation.SetForeground(0, 0, Color.Red);
+            //    npc.Location.Point = new Point(i * 2, i);
+            //    this.activeMap.AddGameObject(npc);
+            //}
 
             var hud = new HiveRL.UI.Hud(this.Player, 20, Height);
             hud.Position = new Point(Width - 21, 0);
             startingConsole.Children.Add(hud);
             startingConsole.Children.Add(gameArea);
 
-            for(var x = 0; x < 50; x++)
-            {
-                for(var y = 0; y < 50; y++)
-                {
-                    if(x == 0 || y == 0 || x == 49 || y == 49)
-                    {
-                        var wall = new GameObjects.Wall(100, this.activeMap, x, y);
-                        this.activeMap.AddTile(wall);
-                    }
-                    else
-                    {
-                        var floor = new GameObjects.Floor(this.activeMap, x, y);
-                        this.activeMap.AddTile(floor);
-                    }
-                }
-            }
+            
         }
 
         public void Start()
@@ -100,20 +90,25 @@ namespace HiveRL
             if (SadConsole.Global.KeyboardState.IsKeyReleased(Microsoft.Xna.Framework.Input.Keys.D))
             {
                 this.Player.Location.MoveByOffset(1);
+                this.gameArea.HasMoved = true;
             }
             if (SadConsole.Global.KeyboardState.IsKeyReleased(Microsoft.Xna.Framework.Input.Keys.S))
             {
                 this.Player.Location.MoveByOffset(0, 1);
+                this.gameArea.HasMoved = true;
             }
             if (SadConsole.Global.KeyboardState.IsKeyReleased(Microsoft.Xna.Framework.Input.Keys.W))
             {
                 this.Player.Location.MoveByOffset(0, -1);
+                this.gameArea.HasMoved = true;
             }
             if (SadConsole.Global.KeyboardState.IsKeyReleased(Microsoft.Xna.Framework.Input.Keys.A))
             {
                 this.Player.Location.MoveByOffset(-1);
+                this.gameArea.HasMoved = true;
             }
-            this.Player.Update(time);
+            if(this.gameArea.HasMoved)
+                this.Player.Update(time);
             
         }
 

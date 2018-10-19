@@ -10,7 +10,7 @@ namespace HiveRL
     public class GameObject
     {
         private Dictionary<Type, Components.ComponentBase> components;
-        public GameObject(string name, Map map)
+        public GameObject(string name, Maps.Map map)
         {
             this.Name = name;
             this.components = new Dictionary<Type, Components.ComponentBase>();

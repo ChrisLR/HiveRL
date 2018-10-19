@@ -9,12 +9,12 @@ namespace HiveRL.GameObjects
 {
     public class Floor : Tile
     {
-        public Floor(Map map, int x, int y) : base("floor", map)
+        public Floor(Maps.Map map, int x, int y) : base("floor", map)
         {
             this.IsBlocking = false;
             this.Display = new Components.Display(this, '.', Color.Gray, Color.Black);
             this.RegisterComponent(this.Display);
-            this.Location.MoveTo(x, y);
+            this.Location.SetPos(x, y);
         }
 
         public Components.Health Health { get; set; }

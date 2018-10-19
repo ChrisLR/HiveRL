@@ -5,13 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 
-namespace HiveRL
+namespace HiveRL.Maps
 {
     public class Map : RogueSharp.Map
     {
         public TimeSpan elapsedTime = TimeSpan.Zero;
         Game game;
         public List<GameObject> GameObjects;
+        public List<Room> Rooms;
         Dictionary<Point, List<GameObject>> gameObjectsByPoint;
         Dictionary<Point, GameObjects.Tile> tilesByPoint;
 
@@ -21,6 +22,7 @@ namespace HiveRL
             this.gameObjectsByPoint = new Dictionary<Point, List<GameObject>>();
             this.GameObjects = new List<GameObject>();
             this.tilesByPoint = new Dictionary<Point, GameObjects.Tile>();
+            this.Rooms = new List<Room>();
         }
 
         public void AddGameObject(GameObject gameObject)
@@ -64,12 +66,14 @@ namespace HiveRL
         {
             Point point = tile.Location.Point;
             this.tilesByPoint[point] = tile;
+            this.SetCellProperties(point.X, point.Y, !tile.IsBlocking, !tile.IsBlocking);
         }
 
         public GameObjects.Tile GetTile(Point point)
         {
             GameObjects.Tile tile = null;
             this.tilesByPoint.TryGetValue(point, out tile);
+
             return tile;
         }
 

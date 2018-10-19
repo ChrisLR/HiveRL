@@ -9,7 +9,7 @@ namespace HiveRL.Components
 {
     public class Location : ComponentBase
     {
-        public Location(GameObject host, Map map) : base("Location", host)
+        public Location(GameObject host, Maps.Map map) : base("Location", host)
         {
             this.Map = map;
         }
@@ -18,6 +18,10 @@ namespace HiveRL.Components
         {
             var target = new Point(this.Point.X + x, this.Point.Y + y);
             var pointGameObjects = this.Map.GetGameObjectsByPoint(target);
+            var tile = this.Map.GetTile(target);
+            if (tile == null || tile.IsBlocking)
+                return;
+
             if (pointGameObjects == null || !pointGameObjects.Any(g => g.IsBlocking))
                 this.Map.MoveGameObject(this.Host, target);
         }
@@ -28,8 +32,14 @@ namespace HiveRL.Components
             this.Map.MoveGameObject(this.Host, target);
         }
 
+        public void SetPos(int x = 0, int y = 0)
+        {
+            var target = new Point(x, y);
+            this.Point = target;
+        }
+
         public Point Point { get; set;}
 
-        public Map Map { get; set; }
+        public Maps.Map Map { get; set; }
     }
 }
