@@ -89,16 +89,6 @@ namespace HiveRL.Maps
                 if(gameObject == this.game.Player)
                     continue;
 
-                if (mustMove)
-                {
-                    var follow_x = RogueSharp.DiceNotation.Dice.Roll("1D2") == 2;
-                    var follow_y = RogueSharp.DiceNotation.Dice.Roll("1D2") == 2;
-
-                    int delta_x = follow_x ? Math.Sign(this.game.Player.Location.Point.X - gameObject.Location.Point.X) : 0;
-                    int delta_y = follow_y ? Math.Sign(this.game.Player.Location.Point.Y - gameObject.Location.Point.Y) : 0;
-
-                    gameObject.Location.MoveByOffset(delta_x, delta_y);
-                }
                 gameObject.Update(time);
             }
         }

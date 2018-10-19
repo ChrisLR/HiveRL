@@ -21,6 +21,8 @@ namespace HiveRL
         
         public Maps.Map activeMap;
         UI.GameArea gameArea;
+        public bool PlayerMoved = true;
+        public Keybindings keyBindings = new Keybindings();
 
         public Game()
         {
@@ -67,8 +69,10 @@ namespace HiveRL
             hud.Position = new Point(Width - 21, 0);
             startingConsole.Children.Add(hud);
             startingConsole.Children.Add(gameArea);
+            this.PlayerMoved = true;
+            this.gameArea.Draw(TimeSpan.Zero);
 
-            
+
         }
 
         public void Start()
@@ -79,37 +83,36 @@ namespace HiveRL
 
         private void Update(GameTime time)
         {
-            this.activeMap.Update(time);
-            // Called each logic update.
-
             // As an example, we'll use the F5 key to make the game full screen
             if (SadConsole.Global.KeyboardState.IsKeyReleased(Microsoft.Xna.Framework.Input.Keys.F5))
             {
                 SadConsole.Settings.ToggleFullScreen();
             }
-            if (SadConsole.Global.KeyboardState.IsKeyReleased(Microsoft.Xna.Framework.Input.Keys.D))
+            var keysReleased = SadConsole.Global.KeyboardState.KeysReleased;
+            if (keysReleased.Any())
             {
-                this.Player.Location.MoveByOffset(1);
-                this.gameArea.HasMoved = true;
+                foreach(var key in keysReleased)
+                {
+                    var action = this.keyBindings.GetAction(key.Key);
+                    if(action != null)
+                    {
+                        if (action.CanExecute(this.Player))
+                        {
+                            action.Execute(this.Player);
+                            this.PlayerMoved = true;
+                            break;
+                        }
+                    }
+                }
             }
-            if (SadConsole.Global.KeyboardState.IsKeyReleased(Microsoft.Xna.Framework.Input.Keys.S))
+
+            if (this.PlayerMoved)
             {
-                this.Player.Location.MoveByOffset(0, 1);
-                this.gameArea.HasMoved = true;
-            }
-            if (SadConsole.Global.KeyboardState.IsKeyReleased(Microsoft.Xna.Framework.Input.Keys.W))
-            {
-                this.Player.Location.MoveByOffset(0, -1);
-                this.gameArea.HasMoved = true;
-            }
-            if (SadConsole.Global.KeyboardState.IsKeyReleased(Microsoft.Xna.Framework.Input.Keys.A))
-            {
-                this.Player.Location.MoveByOffset(-1);
-                this.gameArea.HasMoved = true;
-            }
-            if(this.gameArea.HasMoved)
                 this.Player.Update(time);
-            
+                this.activeMap.Update(time);
+                this.PlayerMoved = false;
+                this.gameArea.MustRedraw = true;
+            }
         }
 
         public GameObjects.Character Player { get; set; }

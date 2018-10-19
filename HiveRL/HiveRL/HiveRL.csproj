@@ -65,11 +65,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Actions\ActionBase.cs" />
+    <Compile Include="Actions\Walk.cs" />
     <Compile Include="Components\ComponentBase.cs" />
     <Compile Include="Components\Display.cs" />
     <Compile Include="Components\Health.cs" />
     <Compile Include="Components\Location.cs" />
     <Compile Include="Components\Vision.cs" />
+    <Compile Include="Direction.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="GameObjects\Character.cs" />
     <Compile Include="GameObjects\Floor.cs" />
@@ -77,6 +80,7 @@
     <Compile Include="GameObjects\Wall.cs" />
     <Compile Include="GameObjects\Tile.cs" />
     <Compile Include="Interfaces\IDisplayable.cs" />
+    <Compile Include="Keybindings.cs" />
     <Compile Include="Maps\Map.cs" />
     <Compile Include="Maps\MapGenerator.cs" />
     <Compile Include="Maps\Room.cs" />

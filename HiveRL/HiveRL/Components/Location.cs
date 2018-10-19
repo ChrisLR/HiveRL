@@ -14,24 +14,6 @@ namespace HiveRL.Components
             this.Map = map;
         }
 
-        public void MoveByOffset(int x = 0, int y = 0)
-        {
-            var target = new Point(this.Point.X + x, this.Point.Y + y);
-            var pointGameObjects = this.Map.GetGameObjectsByPoint(target);
-            var tile = this.Map.GetTile(target);
-            if (tile == null || tile.IsBlocking)
-                return;
-
-            if (pointGameObjects == null || !pointGameObjects.Any(g => g.IsBlocking))
-                this.Map.MoveGameObject(this.Host, target);
-        }
-
-        public void MoveTo(int x = 0, int y = 0)
-        {
-            var target = new Point(x,  y);
-            this.Map.MoveGameObject(this.Host, target);
-        }
-
         public void SetPos(int x = 0, int y = 0)
         {
             var target = new Point(x, y);
