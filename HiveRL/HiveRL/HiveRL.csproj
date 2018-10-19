@@ -80,6 +80,7 @@
     <Compile Include="GameObjects\Wall.cs" />
     <Compile Include="GameObjects\Tile.cs" />
     <Compile Include="Interfaces\IDisplayable.cs" />
+    <Compile Include="Keybindings.cs" />
     <Compile Include="Maps\Map.cs" />
     <Compile Include="Maps\MapGenerator.cs" />
     <Compile Include="Maps\Room.cs" />

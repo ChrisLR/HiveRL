@@ -22,6 +22,7 @@ namespace HiveRL
         public Maps.Map activeMap;
         UI.GameArea gameArea;
         public bool PlayerMoved = true;
+        public Keybindings keyBindings = new Keybindings();
 
         public Game()
         {
@@ -87,29 +88,22 @@ namespace HiveRL
             {
                 SadConsole.Settings.ToggleFullScreen();
             }
-            if (SadConsole.Global.KeyboardState.IsKeyReleased(Microsoft.Xna.Framework.Input.Keys.D))
+            var keysReleased = SadConsole.Global.KeyboardState.KeysReleased;
+            if (keysReleased.Any())
             {
-                var action = new Actions.Walk(Directions.East);
-                action.Execute(this.Player);
-                this.PlayerMoved = true;
-            }
-            if (SadConsole.Global.KeyboardState.IsKeyReleased(Microsoft.Xna.Framework.Input.Keys.S))
-            {
-                var action = new Actions.Walk(Directions.South);
-                action.Execute(this.Player);
-                this.PlayerMoved = true;
-            }
-            if (SadConsole.Global.KeyboardState.IsKeyReleased(Microsoft.Xna.Framework.Input.Keys.W))
-            {
-                var action = new Actions.Walk(Directions.North);
-                action.Execute(this.Player);
-                this.PlayerMoved = true;
-            }
-            if (SadConsole.Global.KeyboardState.IsKeyReleased(Microsoft.Xna.Framework.Input.Keys.A))
-            {
-                var action = new Actions.Walk(Directions.West);
-                action.Execute(this.Player);
-                this.PlayerMoved = true;
+                foreach(var key in keysReleased)
+                {
+                    var action = this.keyBindings.GetAction(key.Key);
+                    if(action != null)
+                    {
+                        if (action.CanExecute(this.Player))
+                        {
+                            action.Execute(this.Player);
+                            this.PlayerMoved = true;
+                            break;
+                        }
+                    }
+                }
             }
 
             if (this.PlayerMoved)
