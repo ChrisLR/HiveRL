@@ -15,7 +15,7 @@ namespace HiveRL.UI
         Game game;
         Point origin;
         List<Point> points;
-        public bool HasMoved = true;
+        public bool MustRedraw = true;
 
         public GameArea(Character player, Game game, int width, int height) : base(width, height)
         {
@@ -30,13 +30,12 @@ namespace HiveRL.UI
 
         public override void Draw(TimeSpan timeElapsed)
         {
-            if (!this.HasMoved)
+            if (!this.MustRedraw)
             {
                 base.Draw(timeElapsed);
                 return;
             }
                 
-            this.HasMoved = false;
 
             this.Clear();
             Components.Vision vision = (Components.Vision)this.player.GetComponent(typeof(Components.Vision));
@@ -73,6 +72,7 @@ namespace HiveRL.UI
                 this.SetGlyph(screenPosition.X, screenPosition.Y, display.SadEntity.Animation.GetGlyph(0, 0));
             }
             base.Draw(timeElapsed);
+            this.MustRedraw = false;
         }
     }
 }
