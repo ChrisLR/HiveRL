@@ -67,6 +67,7 @@
   <ItemGroup>
     <Compile Include="Actions\ActionBase.cs" />
     <Compile Include="Actions\Walk.cs" />
+    <Compile Include="Components\AI.cs" />
     <Compile Include="Components\ComponentBase.cs" />
     <Compile Include="Components\Display.cs" />
     <Compile Include="Components\Health.cs" />
@@ -74,6 +75,8 @@
     <Compile Include="Components\Vision.cs" />
     <Compile Include="Direction.cs" />
     <Compile Include="Game.cs" />
+    <Compile Include="GameObjects\Aliens\Alien.cs" />
+    <Compile Include="GameObjects\Aliens\Drone.cs" />
     <Compile Include="GameObjects\Character.cs" />
     <Compile Include="GameObjects\Floor.cs" />
     <Compile Include="GameObjects\GameObject.cs" />
@@ -118,9 +121,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Factories\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MonoGame.Framework.DesktopGL.3.7.0.1708\build\MonoGame.Framework.DesktopGL.targets" Condition="Exists('..\packages\MonoGame.Framework.DesktopGL.3.7.0.1708\build\MonoGame.Framework.DesktopGL.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

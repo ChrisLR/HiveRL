@@ -13,9 +13,9 @@ namespace HiveRL.Actions
             return true;
         }
 
-        public virtual void Execute(GameObject executor)
+        public virtual bool Execute(GameObject executor)
         {
-
+            return true;
         }
     }
 }

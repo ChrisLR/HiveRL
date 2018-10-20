@@ -10,7 +10,7 @@ namespace HiveRL.Maps
     public class Map : RogueSharp.Map
     {
         public TimeSpan elapsedTime = TimeSpan.Zero;
-        Game game;
+        
         public List<GameObject> GameObjects;
         public List<Room> Rooms;
         Dictionary<Point, List<GameObject>> gameObjectsByPoint;
@@ -18,12 +18,14 @@ namespace HiveRL.Maps
 
         public Map(Game game, int width, int height) : base(width, height)
         {
-            this.game = game;
+            this.Game = game;
             this.gameObjectsByPoint = new Dictionary<Point, List<GameObject>>();
             this.GameObjects = new List<GameObject>();
             this.tilesByPoint = new Dictionary<Point, GameObjects.Tile>();
             this.Rooms = new List<Room>();
         }
+
+        public Game Game { get; set; }
 
         public void AddGameObject(GameObject gameObject)
         {
@@ -86,11 +88,12 @@ namespace HiveRL.Maps
             for (var i = this.GameObjects.Count() - 1; i >= 0; i--)
             {
                 GameObject gameObject = this.GameObjects[i];
-                if(gameObject == this.game.Player)
+                if(gameObject == this.Game.Player)
                     continue;
 
                 gameObject.Update(time);
             }
         }
+
     }
 }
