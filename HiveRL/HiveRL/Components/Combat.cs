@@ -28,11 +28,52 @@ namespace HiveRL.Components
         // Armor pieces should each give an advantage that is lost when broken
         // Each of these should not be replacable nor repairable
         // It places focus on maintaining awareness high at all times
-        
-        public Combat(int maxAwareness, int maxStamina, GameObject host) : base("Combat", host)
-        {
+        List<Attacks.Attack> naturalAttacks;
 
+        public Combat(int maxAwareness, int maxStamina, List<Attacks.Attack> naturalAttacks = null, GameObject host) : base("Combat", host)
+        {
+            this.MaxAwareness = maxAwareness;
+            this.CurrentAwareness = maxAwareness;
+            this.MaxStamina = maxStamina;
+            this.CurrentStamina = maxStamina;
+            this.naturalAttacks = naturalAttacks ?? new List<Attacks.Attack>();
         }
 
+        public int MaxAwareness { get; protected set; }
+        public int CurrentAwareness { get; protected set; }
+        public int MaxStamina { get; protected set; }
+        public int CurrentStamina { get; protected set; }
+
+        public void Attack(GameObject target)
+        {
+            // See if host has any weapons equipped
+            //  If any, use the attack provided by the weapon
+            // Else select a natural attack
+
+            //TODO Use equipment Component to fetch Any Weapon and its associated attack
+
+            //Since we have none, use natural attacks
+            var attackCount = this.naturalAttacks.Count();
+            var randomAttackIndex = Program.Random.Next(attackCount);
+            var attack = this.naturalAttacks[randomAttackIndex];
+
+            // TODO Use Stamina or Reduce AttackRating if not enough
+
+
+            var defenderCombat = (Combat)target.GetComponent(typeof(Combat));
+            if(defenderCombat.CurrentAwareness > attack.AttackRating)
+            {
+                defenderCombat.CurrentAwareness -= attack.AttackRating;
+                attack.OnMiss(this.Host, target);
+            }
+            else
+            {
+                // TODO Use equipment to fetch any armor blocking the hit
+                // TODO Then apply attack.OnHit(this.Host, target);
+
+                // TODO If there are None apply attack.OnKill(this.Host, target);
+                // TODO Then create a Corpse from the Defender
+            }
+        }
     }
 }

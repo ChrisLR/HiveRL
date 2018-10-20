@@ -67,6 +67,9 @@
   <ItemGroup>
     <Compile Include="Actions\ActionBase.cs" />
     <Compile Include="Actions\Walk.cs" />
+    <Compile Include="Attacks\Attack.cs" />
+    <Compile Include="Attacks\Claw.cs" />
+    <Compile Include="Attacks\Punch.cs" />
     <Compile Include="Components\AI.cs" />
     <Compile Include="Components\Combat.cs" />
     <Compile Include="Components\ComponentBase.cs" />
