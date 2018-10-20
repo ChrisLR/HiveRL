@@ -22,10 +22,15 @@ namespace HiveRL.Components
             // Currently, only a very basic AI is required
             // If no target, acquire one if it is seen
             // If a target, walk to it and "bump"
+            var map = this.Host.Location.Map;
             if (target == null)
             {
-                this.acquireTarget(this.Host.Location.Map, this.Host);
+                this.acquireTarget(map, this.Host);
                 return;
+            }
+            else
+            {
+                this.WalkToTarget(map, this.Host);
             }
                 
 
@@ -50,21 +55,22 @@ namespace HiveRL.Components
             var player = map.Game.Player;
             var playerPoint = player.Location.Point;
             var hostPoint = host.Location.Point;
-            var delta = hostPoint - playerPoint;
+            var delta = playerPoint - hostPoint;
             var horizontalDirection = Directions.GetByOffset(delta.X);
-            var verticalDirection = Directions.GetByOffset(delta.Y);
+            var verticalDirection = Directions.GetByOffset(0, delta.Y);
             if(horizontalDirection != null)
             {
                 var action = new Actions.Walk(horizontalDirection);
                 var result = action.Execute(this.Host);
-                if (!result)
+                if (result)
                 {
-                    if (verticalDirection != null)
-                    {
-                        action = new Actions.Walk(verticalDirection);
-                        action.Execute(this.Host);
-                    }
+                    return;
                 }
+            }
+            if (verticalDirection != null)
+            {
+                var action = new Actions.Walk(verticalDirection);
+                action.Execute(this.Host);
             }
         }
     }
