@@ -88,6 +88,13 @@ namespace HiveRL
             {
                 SadConsole.Settings.ToggleFullScreen();
             }
+            // DEBUG SPAWN DRONE
+            if (SadConsole.Global.KeyboardState.IsKeyReleased(Microsoft.Xna.Framework.Input.Keys.F2))
+            {
+                var playerPoint = this.Player.Location.Point;
+                var drone = new GameObjects.Aliens.Drone(this.activeMap, playerPoint.X - 1, playerPoint.Y - 1);
+                
+            }
             var keysReleased = SadConsole.Global.KeyboardState.KeysReleased;
             if (keysReleased.Any())
             {

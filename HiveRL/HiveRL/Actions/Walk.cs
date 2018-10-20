@@ -16,7 +16,7 @@ namespace HiveRL.Actions
             this.direction = direction;
         }
 
-        public override void Execute(GameObject executor)
+        public override bool Execute(GameObject executor)
         {
             var location = executor.Location;
             var map = location.Map;
@@ -26,10 +26,15 @@ namespace HiveRL.Actions
             var pointGameObjects = map.GetGameObjectsByPoint(target);
             var tile = map.GetTile(target);
             if (tile == null || tile.IsBlocking)
-                return;
+                return false;
 
             if (pointGameObjects == null || !pointGameObjects.Any(g => g.IsBlocking))
+            {
                 map.MoveGameObject(executor, target);
+                return true;
+            }
+
+            return false;
         }
     }
 }

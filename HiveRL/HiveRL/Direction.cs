@@ -24,5 +24,21 @@ namespace HiveRL
             }
 
         }
+
+        public static Direction GetByOffset(int offset_x = 0, int offset_y = 0)
+        {
+            var signX = Math.Sign(offset_x);
+            var signY = Math.Sign(offset_y);
+            if (signX == 1)
+                return Directions.East;
+            if (signX == -1)
+                return Directions.West;
+            if (signY == 1)
+                return Directions.South;
+            if (signY == -1)
+                return Directions.North;
+
+            return null;
+        }
     }
 }
