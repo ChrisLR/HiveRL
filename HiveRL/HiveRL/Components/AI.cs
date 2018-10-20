@@ -7,11 +7,11 @@ using Microsoft.Xna.Framework;
 
 namespace HiveRL.Components
 {
-    public class AI : ComponentBase
+    public class SimpleAI : ComponentBase
     {
         GameObject target = null;
 
-        public AI(GameObject host) : base("AI", host)
+        public SimpleAI(GameObject host) : base("SimpleAI", host)
         {
             
         }

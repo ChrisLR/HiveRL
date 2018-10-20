@@ -12,7 +12,7 @@ namespace HiveRL.GameObjects.Aliens
         {
             this.Display.SadEntity.Animation.SetGlyph(0, 0, 'D');
             this.RegisterComponent(new Components.SimpleVision(this, 10));
-            this.RegisterComponent(new Components.AI(this));
+            this.RegisterComponent(new Components.SimpleAI(this));
 
             // TODO This should not be here
             this.Location.SetPos(x, y);
