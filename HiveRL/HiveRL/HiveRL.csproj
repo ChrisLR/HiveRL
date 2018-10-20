@@ -68,6 +68,7 @@
     <Compile Include="Actions\ActionBase.cs" />
     <Compile Include="Actions\Walk.cs" />
     <Compile Include="Components\AI.cs" />
+    <Compile Include="Components\Combat.cs" />
     <Compile Include="Components\ComponentBase.cs" />
     <Compile Include="Components\Display.cs" />
     <Compile Include="Components\Health.cs" />
