@@ -62,6 +62,9 @@ namespace HiveRL.UI
             
             foreach(GameObject gameObject in this.game.activeMap.GameObjects)
             {
+                if (gameObject == this.game.Player)
+                    continue;
+
                 if (!vision.CanSee(gameObject.Location.Point))
                 {
                     continue;
@@ -71,6 +74,13 @@ namespace HiveRL.UI
                 var screenPosition = this.origin + offset;
                 this.SetGlyph(screenPosition.X, screenPosition.Y, display.SadEntity.Animation.GetGlyph(0, 0));
             }
+
+            var playerDisplay = (Components.Display)this.game.Player.GetComponent(typeof(Components.Display));
+            var playerOffset = this.game.Player.Location.Point - this.player.Location.Point;
+            var playerScreenPosition = this.origin + playerOffset;
+            this.SetGlyph(playerScreenPosition.X, playerScreenPosition.Y, playerDisplay.SadEntity.Animation.GetGlyph(0, 0));
+
+
             base.Draw(timeElapsed);
             this.MustRedraw = false;
         }

@@ -82,6 +82,7 @@
     <Compile Include="GameObjects\Aliens\Alien.cs" />
     <Compile Include="GameObjects\Aliens\Drone.cs" />
     <Compile Include="GameObjects\Character.cs" />
+    <Compile Include="GameObjects\Corpse.cs" />
     <Compile Include="GameObjects\Floor.cs" />
     <Compile Include="GameObjects\GameObject.cs" />
     <Compile Include="GameObjects\Wall.cs" />

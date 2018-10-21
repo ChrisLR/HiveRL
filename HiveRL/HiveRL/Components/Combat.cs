@@ -30,7 +30,7 @@ namespace HiveRL.Components
         // It places focus on maintaining awareness high at all times
         List<Attacks.Attack> naturalAttacks;
 
-        public Combat(int maxAwareness, int maxStamina, List<Attacks.Attack> naturalAttacks = null, GameObject host) : base("Combat", host)
+        public Combat(int maxAwareness, int maxStamina, GameObject host, List<Attacks.Attack> naturalAttacks = null) : base("Combat", host)
         {
             this.MaxAwareness = maxAwareness;
             this.CurrentAwareness = maxAwareness;
@@ -53,7 +53,7 @@ namespace HiveRL.Components
             //TODO Use equipment Component to fetch Any Weapon and its associated attack
 
             //Since we have none, use natural attacks
-            var attackCount = this.naturalAttacks.Count();
+            var attackCount = this.naturalAttacks.Count() - 1;
             var randomAttackIndex = Program.Random.Next(attackCount);
             var attack = this.naturalAttacks[randomAttackIndex];
 
@@ -70,9 +70,9 @@ namespace HiveRL.Components
             {
                 // TODO Use equipment to fetch any armor blocking the hit
                 // TODO Then apply attack.OnHit(this.Host, target);
-
-                // TODO If there are None apply attack.OnKill(this.Host, target);
-                // TODO Then create a Corpse from the Defender
+                // TODO Else
+                attack.OnKill(this.Host, target);
+                var corpse = new GameObjects.Corpse(target, target.Location.Map);
             }
         }
     }

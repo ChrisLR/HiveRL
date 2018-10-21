@@ -52,7 +52,9 @@ namespace HiveRL
             this.Player = new GameObjects.Character("Kek", 1, this.activeMap);
             this.Player.Location.Point = this.activeMap.Rooms.First().Box.Center;
             this.Player.RegisterComponent(new Components.Vision(this.Player, 10));
-            
+            this.Player.RegisterComponent(new Components.Combat(1, 10, this.Player, new List<Attacks.Attack>() { new Attacks.Punch() }));
+            this.Player.IsBlocking = true;
+
             this.activeMap.AddGameObject(Player);
             this.gameArea = new UI.GameArea(this.Player, this, Width - 21, Height);
 

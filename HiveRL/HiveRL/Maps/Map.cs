@@ -64,6 +64,14 @@ namespace HiveRL.Maps
             gameObject.Location.Point = newPoint;
         }
 
+        public void RemoveGameObject(GameObject gameObject)
+        {
+            var point = gameObject.Location.Point;
+            this.GameObjects.Remove(gameObject);
+            var pointObjects = this.gameObjectsByPoint[point];
+            pointObjects.Remove(gameObject);
+        }
+
         public void AddTile(GameObjects.Tile tile)
         {
             Point point = tile.Location.Point;

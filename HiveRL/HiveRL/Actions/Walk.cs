@@ -33,6 +33,15 @@ namespace HiveRL.Actions
                 map.MoveGameObject(executor, target);
                 return true;
             }
+            else
+            {
+                var executorCombat = (Components.Combat)executor.GetComponent(typeof(Components.Combat));
+                if(executorCombat != null )
+                {
+                    var targetObject = pointGameObjects.Find(g => g.GetComponent(typeof(Components.Combat)) != null);
+                    executorCombat.Attack(targetObject);
+                }  
+            }
 
             return false;
         }
