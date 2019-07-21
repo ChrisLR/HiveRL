@@ -18,5 +18,10 @@ namespace HiveRL.GameObjects.Aliens
             this.Location.SetPos(x, y);
             map.AddGameObject(this);
         }
+
+        public override void Attack(Character target)
+        {
+
+        }
     }
 }

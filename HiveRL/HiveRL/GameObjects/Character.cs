@@ -19,5 +19,10 @@ namespace HiveRL.GameObjects
 
         public Components.Health Health { get; set;}
         public Components.Display Display { get; set; }
+
+        public virtual void Attack(Character target)
+        {
+
+        }
     }
 }
