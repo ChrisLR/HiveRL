@@ -10,6 +10,7 @@ namespace HiveRL
     public class GameObject
     {
         private Dictionary<Type, Components.ComponentBase> components;
+        public List<string> MessageLog;
         public GameObject(string name, Maps.Map map)
         {
             this.Name = name;
@@ -17,6 +18,7 @@ namespace HiveRL
             this.Location = new Components.Location(this, map);
             this.RegisterComponent(this.Location);
             this.IsBlocking = true;
+            this.MessageLog = new List<string>();
         }
 
         public Components.ComponentBase GetComponent(Type componentType)
@@ -42,6 +44,11 @@ namespace HiveRL
                 var component = components.ElementAt(i);
                 component.Update(deltatime);
             }
+        }
+
+        public void Message(string message)
+        {
+            this.MessageLog.Insert(0, message);
         }
 
         public Components.Location Location { get; set; }

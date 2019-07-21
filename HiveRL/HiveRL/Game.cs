@@ -17,10 +17,11 @@ namespace HiveRL
     public class Game
     {
         public const int Width = 80;
-        public const int Height = 25;
+        public const int Height = 40;
         
         public Maps.Map activeMap;
         UI.GameArea gameArea;
+        UI.MessageLog messageLog;
         public bool PlayerMoved = true;
         public Keybindings keyBindings = new Keybindings();
 
@@ -55,6 +56,7 @@ namespace HiveRL
             
             this.activeMap.AddGameObject(Player);
             this.gameArea = new UI.GameArea(this.Player, this, Width - 21, Height);
+            this.messageLog = new UI.MessageLog(this.Player, this, Width - 21, Height);
 
             //Add Npcs
             //for(var i = 0; i < 10; i++)
@@ -69,10 +71,11 @@ namespace HiveRL
             hud.Position = new Point(Width - 21, 0);
             startingConsole.Children.Add(hud);
             startingConsole.Children.Add(gameArea);
+            startingConsole.Children.Add(messageLog);
             this.PlayerMoved = true;
             this.gameArea.Draw(TimeSpan.Zero);
-
-
+            this.Player.Message("Welcome!");
+            this.Player.Message("Press F2 to Spawn a test Alien Drone");
         }
 
         public void Start()
